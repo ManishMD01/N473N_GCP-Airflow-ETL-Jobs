@@ -1,0 +1,259 @@
+{
+  "project_id": "nalen-458109",
+  "dataset_id": "fincrime_er",
+  "location": "US",
+  "description": "BigQuery schema for ETL data load - Customer and Transaction tables",
+  "tables": [
+    {
+      "table_id": "raw_customers",
+      "type": "RAW",
+      "description": "Raw customer profile data for ETL ingestion",
+      "time_partitioning": {
+        "type": "DAY",
+        "field": "load_date"
+      },
+      "clustering_fields": ["customer_id"],
+      "schema": [
+        {
+          "name": "customer_id",
+          "type": "STRING",
+          "mode": "REQUIRED",
+          "description": "Source system customer identifier"
+        },
+        {
+          "name": "name",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "Full name as provided"
+        },
+        {
+          "name": "dob",
+          "type": "DATE",
+          "mode": "NULLABLE",
+          "description": "Date of birth"
+        },
+        {
+          "name": "address",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "Address as provided"
+        },
+        {
+          "name": "phone",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "Phone number"
+        },
+        {
+          "name": "email",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "Email address"
+        },
+        {
+          "name": "ssn",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "SSN/National ID"
+        },
+        {
+          "name": "zip",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "ZIP/Postal code"
+        },
+        {
+          "name": "device_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "Device identifier"
+        },
+        {
+          "name": "ip_address",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "IP address"
+        },
+        {
+          "name": "location",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "Location/Country"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "Source system name"
+        },
+        {
+          "name": "load_date",
+          "type": "DATE",
+          "mode": "REQUIRED",
+          "description": "ETL load date"
+        },
+        {
+          "name": "load_timestamp",
+          "type": "TIMESTAMP",
+          "mode": "REQUIRED",
+          "description": "ETL load timestamp"
+        },
+        {
+          "name": "batch_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "Batch identifier"
+        }
+      ]
+    },
+    {
+      "table_id": "raw_transactions",
+      "type": "RAW",
+      "description": "Raw transaction data for ETL ingestion",
+      "time_partitioning": {
+        "type": "DAY",
+        "field": "transaction_date"
+      },
+      "clustering_fields": ["sender_id", "receiver_id"],
+      "schema": [
+        {
+          "name": "transaction_id",
+          "type": "STRING",
+          "mode": "REQUIRED",
+          "description": "Transaction identifier"
+        },
+        {
+          "name": "sender_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "Sender customer ID"
+        },
+        {
+          "name": "receiver_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "Receiver customer ID"
+        },
+        {
+          "name": "amount",
+          "type": "NUMERIC",
+          "mode": "REQUIRED",
+          "description": "Transaction amount"
+        },
+        {
+          "name": "currency",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "Currency code"
+        },
+        {
+          "name": "timestamp",
+          "type": "TIMESTAMP",
+          "mode": "REQUIRED",
+          "description": "Transaction timestamp"
+        },
+        {
+          "name": "transaction_date",
+          "type": "DATE",
+          "mode": "REQUIRED",
+          "description": "Transaction date for partitioning"
+        },
+        {
+          "name": "channel",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "Transaction channel"
+        },
+        {
+          "name": "location",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "Transaction location"
+        },
+        {
+          "name": "transaction_type",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "Transaction type"
+        },
+        {
+          "name": "beneficiary_account",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "Beneficiary account"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "Source system"
+        },
+        {
+          "name": "load_date",
+          "type": "DATE",
+          "mode": "REQUIRED",
+          "description": "ETL load date"
+        },
+        {
+          "name": "load_timestamp",
+          "type": "TIMESTAMP",
+          "mode": "REQUIRED",
+          "description": "ETL load timestamp"
+        },
+        {
+          "name": "batch_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": "Batch identifier"
+        }
+      ]
+    },
+    {
+      "table_id": "staging_new_customers",
+      "type": "STAGING",
+      "description": "Staging for incremental/new customer data before merging to raw_customers",
+      "schema": [
+        {"name": "customer_id", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "name", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "dob", "type": "DATE", "mode": "NULLABLE"},
+        {"name": "address", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "phone", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "email", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "ssn", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "zip", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "device_id", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "ip_address", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "location", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "source_system", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "load_date", "type": "DATE", "mode": "NULLABLE"},
+        {"name": "load_timestamp", "type": "TIMESTAMP", "mode": "NULLABLE"},
+        {"name": "batch_id", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "load_processed", "type": "BOOLEAN", "mode": "NULLABLE"},
+        {"name": "processed_timestamp", "type": "TIMESTAMP", "mode": "NULLABLE"}
+      ]
+    },
+    {
+      "table_id": "staging_new_transactions",
+      "type": "STAGING",
+      "description": "Staging for incremental/new transaction data before merging to raw_transactions",
+      "schema": [
+        {"name": "transaction_id", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "sender_id", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "receiver_id", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "amount", "type": "NUMERIC", "mode": "NULLABLE"},
+        {"name": "currency", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "timestamp", "type": "TIMESTAMP", "mode": "NULLABLE"},
+        {"name": "channel", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "location", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "transaction_type", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "beneficiary_account", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "source_system", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "load_date", "type": "DATE", "mode": "NULLABLE"},
+        {"name": "load_timestamp", "type": "TIMESTAMP", "mode": "NULLABLE"},
+        {"name": "batch_id", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "load_processed", "type": "BOOLEAN", "mode": "NULLABLE"},
+        {"name": "processed_timestamp", "type": "TIMESTAMP", "mode": "NULLABLE"}
+      ]
+    }
+  ]
+}
